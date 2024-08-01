@@ -1,6 +1,7 @@
-import { Request, Response } from "express";
-import pool from ".";
+import { Request, Response } from "express";;
+import pool from "../index";
 import bcrypt from "bcrypt";
+import jwtGenerator from "../utils/jwtGenerator";
 
 const router = require("express").Router();
 
@@ -25,6 +26,10 @@ router.post("/register", async (req: Request, res: Response) => {
         //Add new user to database
         const newUser = await pool.query("INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *", [name, email, bcryptPassword]);
 
+        //Generate JWT token
+
+        const token = jwtGenerator(newUser.rows[0].user_id);
+        res.json((token));
 
     } catch (error: any) {
         console.error(error.message);
