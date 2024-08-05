@@ -7,7 +7,7 @@ import validInfo from "../middleware/validInfo";
 const router = require("express").Router();
 
 //Register
-router.post("/register", validInfo, async (req: Request, res: Response) => {
+router.post("/register", validInfo, async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
@@ -32,7 +32,7 @@ router.post("/register", validInfo, async (req: Request, res: Response) => {
         const token = jwtGenerator(newUser.rows[0].user_id);
         res.json((token));
 
-    } catch (error: any) {
+    } catch (error) {
         console.error(error.message);
         res.status(500).send("Server Error");
     }

@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
 
 dotenv.config();
 
-export default async function (req:Request, res:Response, next) {
+export default async function (req, res, next) {
     try {
         const jwtToken = req.header("token");
 
@@ -12,7 +12,7 @@ export default async function (req:Request, res:Response, next) {
             return res.status(403).json("Not Authorised");
         }
 
-        const payload = jwt.verify(jwtToken, process.env.JWT_SECRET as string);
+        const payload = jwt.verify(jwtToken, process.env.JWT_SECRET);
 
         req.user = payload.user;
         
