@@ -1,10 +1,9 @@
-import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-export default async function (req, res, next) {
+export default function (req, res, next) {
     try {
         const jwtToken = req.header("token");
 

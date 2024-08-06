@@ -1,10 +1,10 @@
-import { Request, Response } from "express";;
+import express from "express";
 import pool from "../index";
 import bcrypt from "bcrypt";
 import jwtGenerator from "../utils/jwtGenerator";
 import validInfo from "../middleware/validInfo";
 
-const router = require("express").Router();
+const router = express.Router();
 
 //Register
 router.post("/register", validInfo, async (req, res) => {
@@ -29,8 +29,8 @@ router.post("/register", validInfo, async (req, res) => {
 
         //Generate JWT token
 
-        const token = jwtGenerator(newUser.rows[0].user_id);
-        res.json((token));
+        const jwtToken = jwtGenerator(newUser.rows[0].user_id);
+        return res.json({ jwtToken });
 
     } catch (error) {
         console.error(error.message);
@@ -66,4 +66,4 @@ router.post("/login", validInfo, async (req, res) => {
     }
 })
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-export default function(req, res, next) {
+    function middleware(req, res, next) {
     const { email, name, password } = req.body;
   
     function validEmail(userEmail) {
@@ -18,9 +18,11 @@ export default function(req, res, next) {
       if (![email, password].every(Boolean)) {
         return res.status(401).json("Missing Credentials");
       } else if (!validEmail(email)) {
-        return res.stuats(401).json("Invalid Email");
+        return res.status(401).json("Invalid Email");
       }
     }
     //continues with route
     next();
   };
+
+export default middleware;
