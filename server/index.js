@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from "dotenv";
 import pg from 'pg';
+import jwtAuth from "./routes/jwtAuth.js";
+import dashboard from "./routes/dashboard.js";
 
 dotenv.config();
 
@@ -19,9 +21,9 @@ const pool = new pg.Pool({
   port: 5432
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+app.use("/auth", jwtAuth);
+
+app.use("/dashboard", dashboard);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

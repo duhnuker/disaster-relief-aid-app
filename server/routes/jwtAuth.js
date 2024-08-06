@@ -1,8 +1,9 @@
 import express from "express";
-import pool from "../index";
+import pool from "../index.js";
 import bcrypt from "bcrypt";
-import jwtGenerator from "../utils/jwtGenerator";
-import validInfo from "../middleware/validInfo";
+import jwtGenerator from "../utils/jwtGenerator.js";
+import validInfo from "../middleware/validInfo.js";
+import authorise from "../middleware/authorise.js";
 
 const router = express.Router();
 
@@ -40,26 +41,35 @@ router.post("/register", validInfo, async (req, res) => {
 
 router.post("/login", validInfo, async (req, res) => {
     try {
-       const { email, password } = req.body;
+        const { email, password } = req.body;
 
-       const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
+        const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
-       if (user.rows.length === 0) {
-        return res.status(401).json("Password or Email is incorrect");
-       }
+        if (user.rows.length === 0) {
+            return res.status(401).json("Password or Email is incorrect");
+        }
 
-       //Check if incoming password is correct
-       const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
+        //Check if incoming password is correct
+        const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
 
-       if(!validPassword) {
-        return res.status(401).json("Password or Email is incorrect");
-       }
+        if (!validPassword) {
+            return res.status(401).json("Password or Email is incorrect");
+        }
 
-       //Give them the JWT token
-       const token = jwtGenerator(user.rows[0].user_id);
-       res.json({ token });
-        
+        //Give them the JWT token
+        const token = jwtGenerator(user.rows[0].user_id);
+        res.json({ token });
 
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Server Error");
+    }
+})
+
+router.get("/is-verified", authorise, async (req, res) => {
+    try {
+        res.json(true);
     } catch (error) {
         console.log(error.message);
         res.status(500).send("Server Error");
