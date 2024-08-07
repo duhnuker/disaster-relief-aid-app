@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import axios from "axios";
 
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -13,6 +14,29 @@ function App() {
   const setAuth = (boolean) => {
       setIsAuthenticated(boolean);
   }
+
+  const isAuth = async () => {
+    try {
+      
+      const response = axios.get(
+        "http://localhost:5000/auth/is-verfied",
+        {
+          headers: { token: localStorage.token }
+        }
+      );
+
+      const parseRes = response.data;
+
+      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  useEffect(() => {
+    isAuth();
+  });
 
   return (
     <div className="container">
