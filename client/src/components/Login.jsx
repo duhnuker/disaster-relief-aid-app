@@ -20,23 +20,23 @@ const Login = ({ setAuth }) => {
 
     const body = { email, password };
 
-    const response = await axios.post(
-      "http://localhost:5000/auth/login", body,
-      {
-        headers: {
-          "Content-type": "application/json"
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/auth/login",
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
         }
-      }
-    )
-      .then((response) => {
-        const parseRes = response.data;
-        localStorage.setItem("token", parseRes.jwtToken);
-        setAuth(true);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      })
-  }
+      );
+
+      localStorage.setItem("token", response.data.jwtToken);
+      setAuth(true);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   return (
     <div>

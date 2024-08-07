@@ -4,21 +4,23 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default function (req, res, next) {
+
+    const token = req.header("jwt_token");
+
+    if (!token) {
+        return res.status(403).json("Not Authorised");
+    }
+
     try {
-        const jwtToken = req.header("token");
 
-        if(!jwtToken) {
-            return res.status(403).json("Not Authorised");
-        }
+        const verify = jwt.verify(token, process.env.JWT_SECRET);
 
-        const payload = jwt.verify(jwtToken, process.env.JWT_SECRET);
+        req.user = verify.user;
 
-        req.user = payload.user;
-        
         next();
 
     } catch (error) {
         console.error(error.message);
-        return res.status(403).json("Not Authorised");
-    }    
-}
+        return res.status(403).json({ msg: "Token is not valid" });
+    }
+};

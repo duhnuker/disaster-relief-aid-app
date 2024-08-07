@@ -18,33 +18,28 @@ const Register = () => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-
-    const body = { email, password, name };
-
-    const response = await axios.post(
-      "http://localhost:5000/auth/register", body,
-      {
+    try {
+      const body = { email, password, name };
+      const response = await axios.post("http://localhost:5000/authentication/register", body, {
         headers: {
-          "Content-type": "application/json"
+          "Content-Type": "application/json"
         }
-      }
-    )
-      .then((response) => {
-        const parseRes = response.data;
-
-        if (parseRes.jwtToken) {
-          localStorage.setItem("token", parseRes.jwtToken);
-          setAuth(true);
-          toast.success("Register Successfully");
-        } else {
-          setAuth(false);
-          toast.error(parseRes);
-        }
-      })
-      .catch((err) => {
-        console.error(err.message);
       });
-  }
+
+      const parseRes = response.data;
+
+      if (parseRes.jwtToken) {
+        localStorage.setItem("token", parseRes.jwtToken);
+        setAuth(true);
+        toast.success("Register Successfully");
+      } else {
+        setAuth(false);
+        toast.error(parseRes);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   return (
     <div>
