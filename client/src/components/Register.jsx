@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import axios from "axios";
 
 const Register = () => {
@@ -18,31 +19,32 @@ const Register = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
 
-      const body = { email, password, name };
+    const body = { email, password, name };
 
-      const response = await axios.post(
-        "http://localhost:5000/auth/register", body,
-        {
-          headers: {
-            "Content-type": "application/json"
-          }
-        })
-        .then((response) => {
-          const parseRes = response.data;
-    
-          if (parseRes.jwtToken) {
-            localStorage.setItem("token", parseRes.jwtToken);
-            setAuth(true);
-            toast.success("Register Successfully");
-          } else {
-            setAuth(false);
-            toast.error(parseRes);
-          }
-        })
-        .catch((err) => {
-          console.error(err.message);
-        });
-    }
+    const response = await axios.post(
+      "http://localhost:5000/auth/register", body,
+      {
+        headers: {
+          "Content-type": "application/json"
+        }
+      }
+    )
+      .then((response) => {
+        const parseRes = response.data;
+
+        if (parseRes.jwtToken) {
+          localStorage.setItem("token", parseRes.jwtToken);
+          setAuth(true);
+          toast.success("Register Successfully");
+        } else {
+          setAuth(false);
+          toast.error(parseRes);
+        }
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }
 
   return (
     <div>
@@ -71,6 +73,7 @@ const Register = () => {
         </input>
         <button>Submit</button>
       </form>
+      <Link to="/login">Login</Link>
     </div>
   )
 }
