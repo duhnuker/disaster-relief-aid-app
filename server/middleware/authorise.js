@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export default function (req, res, next) {
+    const authMiddleware = (req, res, next) => {
 
     const token = req.header("jwt_token");
 
@@ -24,3 +24,5 @@ export default function (req, res, next) {
         return res.status(403).json({ msg: "Token is not valid" });
     }
 };
+
+export default authMiddleware;

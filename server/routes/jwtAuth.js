@@ -4,13 +4,16 @@ import bcrypt from "bcrypt";
 import jwtGenerator from "../utils/jwtGenerator.js";
 import validInfo from "../middleware/validInfo.js";
 import authorise from "../middleware/authorise.js";
+import authMiddleware from "../middleware/authorise.js";
 
 const router = express.Router();
 
 //Register
 router.post("/register", validInfo, async (req, res) => {
+
+    const { name, email, password } = req.body;
+
     try {
-        const { name, email, password } = req.body;
 
         const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
@@ -63,7 +66,7 @@ router.post("/login", validInfo, async (req, res) => {
     }
 })
 
-router.get("/is-verified", authorise, async (req, res) => {
+router.post("/verify", authMiddleware, async (req, res) => {
     try {
         res.json(true);
     } catch (error) {

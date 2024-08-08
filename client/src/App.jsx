@@ -8,20 +8,18 @@ import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 
 function App() {
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const setAuth = (boolean) => {
-      setIsAuthenticated(boolean);
+    setIsAuthenticated(boolean);
   }
 
-  const isAuth = async () => {
+  const checkAuthenticated = async () => {
     try {
-      
-      const response = axios.get(
-        "http://localhost:5000/auth/is-verfied",
+      const response = await axios.post(
+        "http://localhost:5000/auth/verify", {},
         {
-          headers: { token: localStorage.token }
+          headers: { jwt_token: localStorage.token }
         }
       );
 
@@ -35,8 +33,11 @@ function App() {
   }
 
   useEffect(() => {
-    isAuth();
+    checkAuthenticated();
   });
+
+
+
 
   return (
     <div className="container">

@@ -21,13 +21,27 @@ const Dashboard = ({ setAuth }) => {
     }
   };
 
+  const logout = async (e) => {
+    e.preventDefault();
+    try {
+      localStorage.removeItem("token");
+      setAuth(false);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getProfile();
-  }, []);
+  }, []); //end bracket makes useEffect only make one get request
 
   return (
     <div>
       <h1>Welcome {name}</h1>
+      <button
+      onClick={e => logout(e)}>
+      Logout
+      </button>
     </div>
   )
 }
