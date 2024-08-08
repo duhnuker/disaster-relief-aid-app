@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Dashboard = ({ setAuth }) => {
 
@@ -26,6 +27,7 @@ const Dashboard = ({ setAuth }) => {
     try {
       localStorage.removeItem("token");
       setAuth(false);
+      toast.success("Logged out successfully!");
     } catch (error) {
       console.error(error.message);
     }

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
 
-const Register = () => {
+const Register = ({ setAuth }) => {
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -20,22 +21,17 @@ const Register = () => {
     e.preventDefault();
     try {
       const body = { email, password, name };
-      const response = await axios.post("http://localhost:5000/authentication/register", body, {
+      const response = await axios.post("http://localhost:5000/auth/register", body, {
         headers: {
           "Content-Type": "application/json"
         }
       });
 
       const parseRes = response.data;
-
-      if (parseRes.jwtToken) {
         localStorage.setItem("token", parseRes.jwtToken);
         setAuth(true);
-        toast.success("Register Successfully");
-      } else {
-        setAuth(false);
-        toast.error(parseRes);
-      }
+        toast.success("Registered Successfully");
+
     } catch (err) {
       console.error(err.message);
     }

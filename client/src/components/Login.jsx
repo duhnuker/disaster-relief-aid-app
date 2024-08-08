@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Login = ({ setAuth }) => {
 
@@ -30,9 +31,11 @@ const Login = ({ setAuth }) => {
           }
         }
       );
+  
+          localStorage.setItem("token", response.data.jwtToken);
+          setAuth(true);
+          toast.success("Logged in successfully!");
 
-      localStorage.setItem("token", response.data.jwtToken);
-      setAuth(true);
     } catch (err) {
       console.error(err.message);
     }
