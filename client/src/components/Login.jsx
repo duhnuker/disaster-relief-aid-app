@@ -44,7 +44,7 @@ const Login = ({ setAuth }) => {
   return (
     <div className='grid grid-cols-3 grid-rows-3 h-screen w-screen place-items-center bg-red-900'>
       <div className='flex flex-col items-center justify-center border-4 border-red-800 rounded-3xl shadow-2xl col-start-2 row-start-2 p-5 min-h-full min-w-full'>
-      <img className='w-32 h-32 rounded-full my-5' src='public/logo.jpeg' alt='SafeHaven Logo'></img>
+      <img className='w-32 h-32 rounded-full my-5' src='/logo.jpeg' alt='SafeHaven Logo'></img>
         <h1 className='text-5xl font-bold pb-8 text-white text-center'>Welcome back,</h1>
         <form onSubmit={onSubmitForm}>
           <input className='border-2 border-gray-900 mb-2 font-bold text-lg pl-2 rounded-md'
@@ -55,7 +55,7 @@ const Login = ({ setAuth }) => {
             onChange={e => onChange(e)}>
           </input>
           <br></br>
-          <input className='border-2 border-gray-900 mb-4 font-bold text-lg pl-2 rounded-md'
+          <input className='border-2 border-gray-900 mb-3 font-bold text-lg pl-2 rounded-md'
             type='password'
             name='password'
             placeholder='Password'
