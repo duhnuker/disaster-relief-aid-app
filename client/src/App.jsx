@@ -5,9 +5,9 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Dashboard from "./components/Dashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 
 
 function App() {
@@ -43,7 +43,7 @@ function App() {
 
 
   return (
-    <div className="container">
+    <div>
       <Router>
         <Routes>
           <Route path="/login" element={!isAuthenticated ? (<Login setAuth={setAuth} />) : (<Navigate to="/dashboard" />)}></Route>
